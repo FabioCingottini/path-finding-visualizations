@@ -1,0 +1,4 @@
+{
+  "importOrder": ["^[./].*(?<!\\.(c|le|sc)ss)$", "\\.(c|le|sc)ss$"],
+  "importOrderSeparation": true
+}

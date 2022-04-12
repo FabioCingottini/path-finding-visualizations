@@ -1,0 +1,24 @@
+{
+  "plugins": [
+    "stylelint-a11y"
+  ],
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-recommended-scss",
+    "stylelint-a11y/recommended",
+    "stylelint-config-prettier"
+  ],
+  "rules": {
+    "declaration-empty-line-before": null,
+    "a11y/media-prefers-reduced-motion": null,
+    "rule-empty-line-before": [
+      "always-multi-line",
+      {
+        "except": [
+          "first-nested",
+          "after-single-line-comment"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,37 @@
+/************** BREAKPOINTS *************/
+$breakpoint-mbl-landscape: 568px;
+$breakpoint-tablet-portrait: 768px;
+$breakpoint-tablet-landscape: 1024px;
+$breakpoint-desktop: 1200px;
+
+@mixin media-mbl-landscape-up {
+  @media (min-width: $breakpoint-mbl-landscape) {
+    @content;
+  }
+}
+
+@mixin media-tablet-portrait-up {
+  @media (min-width: $breakpoint-tablet-portrait) {
+    @content;
+  }
+}
+
+@mixin media-tablet-landscape-up {
+  @media (min-width: $breakpoint-tablet-landscape) {
+    @content;
+  }
+}
+
+@mixin media-desktop-up {
+  @media (min-width: $breakpoint-desktop) {
+    @content;
+  }
+}
+
+/* stylelint-disable -- selector-pseudo-class-no-unknown */
+:export {
+  breakpointMblLandscape: $breakpoint-mbl-landscape;
+  breakpointTabletPortrait: $breakpoint-tablet-portrait;
+  breakpointTabletLandscape: $breakpoint-tablet-landscape;
+  breakpointDesktop: $breakpoint-desktop;
+}

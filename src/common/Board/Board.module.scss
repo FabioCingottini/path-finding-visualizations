@@ -1,0 +1,65 @@
+$chess-board-primary-color: #E1EFE6;
+$chess-board-secondary-color: #AEB7B3;
+$chess-board-start-color: green;
+$chess-board-end-primary-color: #000;
+$chess-board-end-secondary-color: #fff;
+$chess-board-disabled-color: #000;
+$chess-board-visited-color: rgba(blue, 0.2);
+$chess-board-path-color: yellow;
+
+.boardContainer {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  .board {
+    position: absolute;
+    z-index: 1000;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+
+    background-color: $chess-board-secondary-color;
+    opacity: 0.8;
+    background-image: repeating-linear-gradient(45deg, $chess-board-primary-color 25%, transparent 25%, transparent 75%, $chess-board-primary-color 75%, $chess-board-primary-color), repeating-linear-gradient(45deg, $chess-board-primary-color 25%, $chess-board-secondary-color 25%, $chess-board-secondary-color 75%, $chess-board-primary-color 75%, $chess-board-primary-color);
+
+    .cell {
+      position: absolute;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      color: rgba(#000, 0.2);
+      
+      cursor: pointer;
+      user-select: none;
+
+      &.startingCell {
+        background: $chess-board-start-color;
+      }
+
+      &.endingCell {
+        background-color: $chess-board-end-primary-color;
+        opacity: 1;
+        background-image: repeating-linear-gradient(45deg, $chess-board-end-secondary-color 25%, transparent 25%, transparent 75%, $chess-board-end-secondary-color 75%, $chess-board-end-secondary-color), repeating-linear-gradient(45deg, $chess-board-end-secondary-color 25%, $chess-board-end-primary-color 25%, $chess-board-end-primary-color 75%, $chess-board-end-secondary-color 75%, $chess-board-end-secondary-color);
+        background-position: 0 0, 7px 7px;
+        background-size: 14px 14px;
+      }
+
+      &.visitedCell {
+        background-color: $chess-board-visited-color;
+      }
+
+      &.disabledCell {
+        background-color: $chess-board-disabled-color;
+      }
+
+      &.pathCell {
+        background-color: $chess-board-path-color;
+      }
+    }
+  }
+}
+

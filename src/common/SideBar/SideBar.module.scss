@@ -1,0 +1,32 @@
+@import "../../scss/vars";
+@import "../../scss/mixins";
+
+.aside {
+  background: azure;
+
+  grid-column: 1/-1;
+  grid-row: 2;
+
+  @include media-tablet-portrait-up {
+    grid-column: 1;
+  }
+
+  .ul {
+    display: flex;
+
+    @include media-tablet-portrait-up {
+      flex-flow: column nowrap;
+    }
+
+    .li {
+      flex: 1;
+
+      padding: 16px 32px;
+
+      font-size: 1.5rem;
+      color: $black;
+
+      cursor: pointer;
+    }
+  }
+}
