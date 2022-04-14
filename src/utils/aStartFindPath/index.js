@@ -1,0 +1,1 @@
+export { aStartFindPath } from "./aStartFindPath";

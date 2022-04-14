@@ -20,6 +20,7 @@ const Board = forwardRef(
       setDisabledCells,
       visitedCells,
       shortestPathCells,
+      setIsVisualizationOnGoing,
     },
     ref
   ) => {
@@ -65,8 +66,10 @@ const Board = forwardRef(
 
     const refsCells = useRef(new Map());
 
+    // set the cells colors
     useEffect(() => {
       if (visitedCells.length && shortestPathCells.length) {
+        setIsVisualizationOnGoing(true);
         let current = 0;
         const interval = setInterval(() => {
           if (current < visitedCells.length) {
@@ -82,8 +85,30 @@ const Board = forwardRef(
               const cell = refsCells.current.get(nodeName);
               cell.classList.add(styles.pathCell);
             }
+            setIsVisualizationOnGoing(false);
           }
         }, 50);
+      }
+    }, [
+      visitedCells,
+      shortestPathCells,
+      startCell,
+      endCell,
+      setIsVisualizationOnGoing,
+    ]);
+
+    // reset the cells colors
+    useEffect(() => {
+      if (
+        !visitedCells.length &&
+        !shortestPathCells.length &&
+        !startCell &&
+        !endCell
+      ) {
+        for (const [, cellRefCurrent] of refsCells.current) {
+          cellRefCurrent.classList.remove(styles.pathCell);
+          cellRefCurrent.classList.remove(styles.visitedCell);
+        }
       }
     }, [visitedCells, shortestPathCells, startCell, endCell]);
 
@@ -182,6 +207,7 @@ Board.propTypes = {
   setDisabledCells: PropTypes.func.isRequired,
   visitedCells: PropTypes.arrayOf(PropTypes.string),
   shortestPathCells: PropTypes.arrayOf(PropTypes.string),
+  setIsVisualizationOnGoing: PropTypes.func.isRequired,
 };
 
 export { Board };

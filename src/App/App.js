@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { Board } from "../common/Board";
 import { SideBar } from "../common/SideBar";
 import { TopBar } from "../common/TopBar";
 import { CELL_SIDE } from "../define/cellSde";
+import { aStartFindPath } from "../utils/aStartFindPath";
 import { createDenseLatticeGraphAdjacencyList } from "../utils/createDenseLatticeGraphAdjacencyList";
 import { dijkstraFindPath } from "../utils/dijkstraFindPath/dijkstraFindPath";
 import { removeDisabledNodesFromGraph } from "../utils/removeDisabledNodesFromGraph";
@@ -20,6 +21,18 @@ const App = () => {
   const [endCell, setEndCell] = useState(null);
   const [visitedCells, setVisitedCells] = useState([]);
   const [shortestPathCells, setShortestPathCells] = useState([]);
+  // eslint-disable-next-line no-unused-vars
+  const [hasAlgorithmFinished, setHasAlgorithmFinished] = useState(false);
+  const [isVisualizationOnGoing, setIsVisualizationOnGoing] = useState(false);
+
+  const reset = useCallback(() => {
+    setDisabledCells([]);
+    setStartCell(null);
+    setEndCell(null);
+    setVisitedCells([]);
+    setShortestPathCells([]);
+    setHasAlgorithmFinished(false);
+  }, []);
 
   useEffect(() => {
     if (refBoard.current) {
@@ -51,7 +64,6 @@ const App = () => {
 
   const DIJKSTRA = "DIJKSTRA";
   const A_STAR = "A_STAR";
-  // eslint-disable-next-line no-unused-vars
   const [activeAlgorithm, setActiveAlgorithm] = useState(DIJKSTRA);
 
   return (
@@ -60,24 +72,44 @@ const App = () => {
         startCell={startCell}
         endCell={endCell}
         onClickStartBtn={() => {
+          const fn_findPath = (function () {
+            switch (activeAlgorithm) {
+              case DIJKSTRA:
+                return () =>
+                  dijkstraFindPath(modifiedGraph, startCell, endCell);
+              case A_STAR:
+                return () => aStartFindPath(modifiedGraph, startCell, endCell);
+              default:
+                throw new Error(
+                  "Mysteriously an incorrect algorithm was selected "
+                );
+            }
+          })();
           const modifiedGraph = removeDisabledNodesFromGraph(
             graph,
             disabledCells
           );
-          const { visitedCells, shortestPath } = dijkstraFindPath(
-            modifiedGraph,
-            startCell,
-            endCell
-          );
+          const { visitedCells, shortestPath } = fn_findPath();
           setVisitedCells(visitedCells);
           setShortestPathCells(shortestPath);
+          setHasAlgorithmFinished(true);
         }}
+        hasAlgorithmFinished={hasAlgorithmFinished}
+        onClickResetBtn={reset}
+        isVisualizationOnGoing={isVisualizationOnGoing}
       />
       <SideBar
-        onClickDijkstra={() => setActiveAlgorithm(DIJKSTRA)}
-        onClickAStar={() => setActiveAlgorithm(A_STAR)}
+        onClickDijkstra={() => {
+          reset();
+          setActiveAlgorithm(DIJKSTRA);
+        }}
+        onClickAStar={() => {
+          reset();
+          setActiveAlgorithm(A_STAR);
+        }}
       />
       <Board
+        setIsVisualizationOnGoing={setIsVisualizationOnGoing}
         cellsPerWidth={cellsPerWidth}
         cellsPerHeight={cellsPerHeight}
         ref={refBoard}

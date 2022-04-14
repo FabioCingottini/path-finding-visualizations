@@ -94,13 +94,12 @@ class DijkstraMemory {
 
 /**
  * @typedef {Object} DijkstraFindPathReturnValue
- * @property {string[]} shortestPath - An array of string nodeNames representing the shorted path
+ * @property {string[]} shortestPath - An array of string nodeNames representing the shortest path
  * @property {string[]} visitedCells - A sorted array of string nodeNames representing the visited cell in visiting order
  */
 /**
  *
- *
- *@return {DijkstraFindPathReturnValue} dijkstraFindPathReturnValue - The shortest path and the visited cells
+ * @return {DijkstraFindPathReturnValue} dijkstraFindPathReturnValue - The shortest path and the visited cells
  */
 export function dijkstraFindPath(obj_graph, startNode, endNode) {
   const visitedCells = [];
